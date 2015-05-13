@@ -157,7 +157,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(111, 13);
             this.label6.TabIndex = 33;
-            this.label6.Text = "Fecha de adquicisión:";
+            this.label6.Text = "Fecha de adquisición:";
             // 
             // dtpAdquicision
             // 
@@ -165,6 +165,7 @@
             this.dtpAdquicision.Name = "dtpAdquicision";
             this.dtpAdquicision.Size = new System.Drawing.Size(224, 20);
             this.dtpAdquicision.TabIndex = 5;
+            this.dtpAdquicision.ValueChanged += new System.EventHandler(this.dtpAdquicision_ValueChanged);
             // 
             // label4
             // 
@@ -181,6 +182,7 @@
             this.dtpServicio.Name = "dtpServicio";
             this.dtpServicio.Size = new System.Drawing.Size(224, 20);
             this.dtpServicio.TabIndex = 6;
+            this.dtpServicio.ValueChanged += new System.EventHandler(this.dtpServicio_ValueChanged);
             // 
             // btnLimpiar
             // 

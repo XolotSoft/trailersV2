@@ -24,7 +24,7 @@ namespace Traileros
         }
 
         private static Cargas frmInst = null;
-
+        int result;
         public static Cargas Instancia()
         {
             if (frmInst == null || frmInst.IsDisposed == true)
@@ -111,19 +111,27 @@ namespace Traileros
         {
             if (Vacio.txb(this))
             {
-                string carga = txbCargamento.Text;
-                string origen = Convert.ToString(cboxOrigen.SelectedValue);
-                string destino = Convert.ToString(cboxDestino.SelectedValue);
-                string partida = dtpPartida.Text;
-                string arribo = dtpArribo.Text;
-                string kilo = txbKilometros.Text;
-                string peaje = txbPeaje.Text;
-                Variables.carga(carga, origen, destino, partida, arribo, kilo, peaje);
-                Operadores ope = null;
-                ope = Operadores.Instancia();
-                ope.MdiParent = MDI.ActiveForm;
-                ope.Show();
-                this.Close();
+                result = dtpPartida.Value.CompareTo(dtpArribo.Value);
+                if(result > 0)
+                {
+                    MessageBox.Show("La fecha de arribo no puede ser menor a la de partida", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    string carga = txbCargamento.Text;
+                    string origen = Convert.ToString(cboxOrigen.SelectedValue);
+                    string destino = Convert.ToString(cboxDestino.SelectedValue);
+                    string partida = dtpPartida.Text;
+                    string arribo = dtpArribo.Text;
+                    string kilo = txbKilometros.Text;
+                    string peaje = txbPeaje.Text;
+                    Variables.carga(carga, origen, destino, partida, arribo, kilo, peaje);
+                    Operadores ope = null;
+                    ope = Operadores.Instancia();
+                    ope.MdiParent = MDI.ActiveForm;
+                    ope.Show();
+                    this.Close();
+                } 
             }
             else
             {
@@ -153,6 +161,18 @@ namespace Traileros
         private void txbCargamento_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letynumesp(e);
+        }
+
+        private void dtpArribo_ValueChanged(object sender, EventArgs e)
+        {
+            result = dtpPartida.Value.CompareTo(dtpArribo.Value);
+            if (result > 0) MessageBox.Show("La fecha de arribo no puede ser menor a la de partida", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void dtpPartida_ValueChanged(object sender, EventArgs e)
+        {
+           result = dtpPartida.Value.CompareTo(dtpArribo.Value);
+           if (result > 0) MessageBox.Show("La fecha de arribo no puede ser menor a la de partida", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

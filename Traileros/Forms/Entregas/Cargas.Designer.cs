@@ -55,6 +55,7 @@
             this.dtpArribo.Name = "dtpArribo";
             this.dtpArribo.Size = new System.Drawing.Size(184, 20);
             this.dtpArribo.TabIndex = 140;
+            this.dtpArribo.ValueChanged += new System.EventHandler(this.dtpArribo_ValueChanged);
             // 
             // cboxDestino
             // 
@@ -137,6 +138,7 @@
             this.dtpPartida.Name = "dtpPartida";
             this.dtpPartida.Size = new System.Drawing.Size(184, 20);
             this.dtpPartida.TabIndex = 125;
+            this.dtpPartida.ValueChanged += new System.EventHandler(this.dtpPartida_ValueChanged);
             // 
             // label4
             // 

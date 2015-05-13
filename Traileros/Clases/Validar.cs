@@ -136,7 +136,7 @@ namespace Traileros
 
         public static bool decimales(string numero)
         {
-            return Regex.IsMatch(numero, "^[0-9]+\\.[0-9]{1,2}$");
+            return Regex.IsMatch(numero, @"^\d+(\.\d{1,2})?$");
         }
 
         public static void numypun(KeyPressEventArgs e)

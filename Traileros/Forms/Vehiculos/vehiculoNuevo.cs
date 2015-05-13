@@ -25,6 +25,7 @@ namespace Traileros
 
         private static vehiculoNuevo frmInst = null;
         private BaseDatos bd = new BaseDatos();
+        int result;
 
         public static vehiculoNuevo Instancia()
         {
@@ -43,33 +44,41 @@ namespace Traileros
             {
                 if (Vacio.cbx(this))
                 {
-                    string sq = "SELECT * FROM vehiculos WHERE placa = '"+ txbPlaca.Text+"'";
-                    bd.buscar(sq);
-                    if (bd.ds.Tables[0].Rows.Count > 0)
+                    result = dtpAdquicision.Value.CompareTo(dtpServicio.Value);
+                    if (result > 0)
                     {
-                        MessageBox.Show("Ya existe un vehiculo registrado con estos datos","Atención",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                        MessageBox.Show("La fecha de servicio no puede ser menor a la de adquisición","Atención",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        string sql = "INSERT INTO vehiculos(serie,marca,tipo,modelo,placa,adquicision,servicio,mantenimiento,estado,DF,Chihuahua,Moterrey,Hermosillo)VALUES('" +
-                        txbSerie.Text + "','" + txbMarca.Text + "','" + txbTipo.Text + "','" + txbModelo.Text + "','" + txbPlaca.Text + "','" +
-                        dtpAdquicision.Text + "','" + dtpServicio.Text + "','" + cmbMantenimiento.Text + "','libre','0','0','0','0')";
-                        if (bd.insertar(sql))
+                        string sq = "SELECT * FROM vehiculos WHERE placa = '" + txbPlaca.Text + "'";
+                        bd.buscar(sq);
+                        if (bd.ds.Tables[0].Rows.Count > 0)
                         {
-                            MessageBox.Show("Vehiculo agregado correctamente", "Atención",
-                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            vehiculosIndex index = null;
-                            index = vehiculosIndex.Instancia();
-                            index.MdiParent = MDI.ActiveForm;
-                            index.Show();
-                            this.Close();
+                            MessageBox.Show("Ya existe un vehiculo registrado con estos datos", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         else
                         {
-                            MessageBox.Show("No se guardo el vehiculo", "Atención",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            string sql = "INSERT INTO vehiculos(serie,marca,tipo,modelo,placa,adquicision,servicio,mantenimiento,estado,DF,Chihuahua,Moterrey,Hermosillo)VALUES('" +
+                            txbSerie.Text + "','" + txbMarca.Text + "','" + txbTipo.Text + "','" + txbModelo.Text + "','" + txbPlaca.Text + "','" +
+                            dtpAdquicision.Text + "','" + dtpServicio.Text + "','" + cmbMantenimiento.Text + "','libre','0','0','0','0')";
+                            if (bd.insertar(sql))
+                            {
+                                MessageBox.Show("Vehiculo agregado correctamente", "Atención",
+                                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                vehiculosIndex index = null;
+                                index = vehiculosIndex.Instancia();
+                                index.MdiParent = MDI.ActiveForm;
+                                index.Show();
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se guardo el vehiculo", "Atención",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
-                    }
+                    } 
                 }
                 else
                 {
@@ -126,6 +135,18 @@ namespace Traileros
         private void txbPlaca_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validar.letynum(e);
+        }
+
+        private void dtpAdquicision_ValueChanged(object sender, EventArgs e)
+        {
+            result = dtpAdquicision.Value.CompareTo(dtpServicio.Value);
+            if (result > 0) MessageBox.Show("La fecha de servicio no puede ser menor a la de adquisición", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void dtpServicio_ValueChanged(object sender, EventArgs e)
+        {
+            result = dtpAdquicision.Value.CompareTo(dtpServicio.Value);
+            if (result > 0) MessageBox.Show("La fecha de servicio no puede ser menor a la de adquisición", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
 
